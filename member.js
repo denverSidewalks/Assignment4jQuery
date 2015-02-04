@@ -63,16 +63,23 @@ $(document).ready(function() {
 				isValid = false; 
 			} else {
 				$("#phone").next().text("");
+				// Here we now need to rewrite the phone number value to the correct format
+				var phoneNumber = $("#phone").val();
+				
+				// Now we're going to recronstruct this phone number to the right format.
+				// For example, if the phone number value is currently 7203082280
+				// then we're going to create a new string that rewrites it as (720) 308-2280.
+				// We can access each digit of the number by calling phoneNumber[index], where index
+				// is the character position of the number.
+				var formattedNumber = '(' + phoneNumber[0] + phoneNumber[1] + [phoneNumber[2] + ') ' +
+					phoneNumber[3] + phoneNumber[4] + phoneNumber[5] + '-' + phoneNumber[6] +
+					phoneNumber[7] + phoneNumber[8] + phoneNumber[9];
+				
+				// Now we set it on the form to the right format.
+				$('#phone').val(formatterNumber);
 			}
 		
-/*			        $('#phone').keyup(function(event){
-        if(isNaN(String.fromCharCode(event.which))){
-            var value = $(this).val();
-
-            $(this).val(value.substr(0,value.length-1));
-      }
-    });
- */ 			// validate the requested start date (regular expression)
+			// validate the requested start date (regular expression)
 			//$("#start_date").next().text("");
 			
 			// prevent the submission of the form if any entries are invalid 
@@ -81,15 +88,26 @@ $(document).ready(function() {
 			}
 		} // end function
 	);	// end submiy
+
+	// We want to set this up to run every time, not just on submit	
+        $('#phone').keyup(function(event){
+	        var value = $(this).val();
+	        if(value.length != 10){
+	        	$(this).addClass('error');
+	        	$(this).removeClass('validated');
+	        } else {
+	        	$(this).removeClass('error');
+	        	$(this).addClass('validated');
+	        }
+        });
 }); // end ready
 
 
-/*$('phone').keyup(function() {
+$('#phone').keyup(function() {
     var $th = $(this);
     $th.val( $th.val().replace(/[^a-zA-Z0-9]/g, function(str) 
     { alert('You typed " ' + str + ' ".\n\nPlease use only letters and numbers.'); return ''; } ) );
 });
-*/
 
 
 function keyupResponse()
