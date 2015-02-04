@@ -63,36 +63,44 @@ $(document).ready(function() {
 				isValid = false; 
 			} else {
 				$("#phone").next().text("");
+				// Here we now need to rewrite the phone number value to the correct format
+				var phoneNumber = $("#phone").val();
+				var formattedNumber = '(' + phoneNumber[0] + phoneNumber[1] + phoneNumber[2] + ')' + phoneNumber[3] + 
+				phoneNumber[4] + phoneNumber[5] + '-' + phoneNumber[6] + phoneNumber[7] + phoneNumber[8] + phoneNumber[9];
+				$('#phone').val(formattedNumber)
 			}
 		
-/*			        $('#phone').keyup(function(event){
-        if(isNaN(String.fromCharCode(event.which))){
-            var value = $(this).val();
 
-            $(this).val(value.substr(0,value.length-1));
-      }
-    });
- */ 			// validate the requested start date (regular expression)
-			//$("#start_date").next().text("");
-			
 			// prevent the submission of the form if any entries are invalid 
 			if (isValid == false) {
 				event.preventDefault();				
 			}
 		} // end function
 	);	// end submiy
+	
+		$('#phone').keyup(function(event){
+			var value =$(this).val();
+			if(value.length != 10){
+				$(this).addClass('error');
+				$(this).removeClass('validated');
+			} else {
+				$(this).removeClass('error');
+				$(this).addClass('validated');
+			}
+	});
+	
+	
 }); // end ready
 
 
-/*$('phone').keyup(function() {
+$('#phone').keyup(function() {
     var $th = $(this);
     $th.val( $th.val().replace(/[^a-zA-Z0-9]/g, function(str) 
     { alert('You typed " ' + str + ' ".\n\nPlease use only letters and numbers.'); return ''; } ) );
 });
-*/
 
 
-function keyupResponse()
+/*function keyupResponse()
 {  
   			if ($("#phone").val() == "") { 
 				$("#phone").next().text("This field is required.");
@@ -101,3 +109,4 @@ function keyupResponse()
 				$("#phone").next().text("");
 			} 
 }
+*/
